@@ -1,3 +1,4 @@
+using System;
 using HarmonyLib;
 
 namespace LockedInside.Patches;
@@ -21,34 +22,61 @@ public class HUDManagerPatch {
         if (entranceTeleport == null)
             return;
 
-        if (entranceTeleport.entranceId == 0) {
-            if (entranceTeleport.isEntranceToBuilding && !LockedInside.stateManager.reverseMode)
-                return;
+        var action = "leave";
+        var door = "fire exit";
+        var corrupted = "Passage restricted. ";
+        var blockInteract = false;
+        if(entranceTeleport.entranceId == 0){
+            // Main entrance
+            if(entranceTeleport.isEntranceToBuilding){
+                // Entering
+                action = "enter";
+                if(LockedInside.stateManager.reverseMode){
+                    // Reverse mode
+                    blockInteract = true;
+                    corrupted = "PAss<ge rrestrc?! .Ex%Enter--";
+                    door += "?.";
+                }
+            }else{
+                // Leaving
+                blockInteract = true;
+                if(LockedInside.stateManager.reverseMode){
+                    // Reverse mode
+                    return;
+                }
+            }
+        }else{
+            // Fire exit
+            door = "main entrance";
+            if(entranceTeleport.isEntranceToBuilding){
+                // Entering
+                action = "enter";
+                blockInteract = true;
+                if(LockedInside.stateManager.reverseMode){
+                    // Reverse mode
+                    return;
+                }
+            }else{
+                // Leaving
+                if(LockedInside.stateManager.reverseMode){
+                    // Reverse mode
+                    blockInteract = true;
+                    corrupted = "PAssa ge rrestrc?! .Ex%Enter--";
+                    door += "?.";
+                }
+            }
+        }
 
-            if (!entranceTeleport.isEntranceToBuilding && LockedInside.stateManager.reverseMode)
-                return;
+        if(action.Equals("leave") && ExitChecker.IsLastAlive() && LockedInside.configManager.allowExitIfLastOneAlive.Value)
+            return;
 
-            if (!entranceTeleport.isEntranceToBuilding && ExitChecker.IsLastAlive() && LockedInside.configManager.allowExitIfLastOneAlive.Value)
-                return;
-
+        var HUDMessage = corrupted + "Please " + action + " using a designated " + door;
+        if(blockInteract){
             __result = false;
             interactTrigger.currentCooldownValue = 1F;
 
-            HUDManager.Instance.DisplayTip("Entrance control", "Passage denied. Please seek an alternate gate");
+            HUDManager.Instance.DisplayTip("Entrance control", HUDMessage);
             return;
         }
-
-        if (!entranceTeleport.isEntranceToBuilding && !LockedInside.stateManager.reverseMode)
-            return;
-        
-        if (entranceTeleport.isEntranceToBuilding && LockedInside.stateManager.reverseMode)
-            return;
-        
-        if (!entranceTeleport.isEntranceToBuilding && ExitChecker.IsLastAlive() && LockedInside.configManager.allowExitIfLastOneAlive.Value)
-                return;
-
-        __result = false;
-        interactTrigger.currentCooldownValue = 1F;
-        HUDManager.Instance.DisplayTip("Entrance control", "Passage denied. Please seek an alternate gate");
     }
 }
