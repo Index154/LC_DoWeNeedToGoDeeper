@@ -1,0 +1,9 @@
+{
+    "name": "Locked_Inside",
+    "version_number": "1.0.0",
+    "website_url": "",
+    "description": "Random chances for entrance and exit restrictions",
+    "dependencies": [
+        "BepInEx-BepInExPack-5.4.2100"
+    ]
+}
