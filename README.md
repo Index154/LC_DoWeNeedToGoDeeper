@@ -1,11 +1,9 @@
 # Locked Inside
 https://thunderstore.io/c/lethal-company/p/Index154/Locked_Inside/
 
-## Known issues
-- Multiplayer is untested. This is my first mod so it might be fricked up
-
 ## Future ideas
 I won't necessarily be adding these. Feel free to comment if you think I should.
+- Something to prevent getting stuck with a fire exit that requires a key to progress
 - Options for different activation chances per moon
 - Options for tying the activation to the selected interior instead of random chance
 - Options for only locking the doors during specific times of day
