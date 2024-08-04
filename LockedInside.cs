@@ -1,17 +1,20 @@
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using LethalNetworkAPI;
 
 namespace LockedInside;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
+[BepInDependency("LethalNetworkAPI")]
 public class LockedInside : BaseUnityPlugin
 {
     public static LockedInside Instance { get; private set; } = null!;
     internal new static ManualLogSource Logger { get; private set; } = null!;
     internal static Harmony? Harmony { get; set; }
     internal static ConfigManager configManager = null!;
-    internal static StateManager stateManager = null!;
+    public static LethalNetworkVariable<bool> locked = new LethalNetworkVariable<bool>(identifier: "lockedState");
+    public static LethalNetworkVariable<bool> reverseMode = new LethalNetworkVariable<bool>(identifier: "reverseModeState");
 
     private void Awake()
     {
@@ -19,7 +22,6 @@ public class LockedInside : BaseUnityPlugin
         Instance = this;
 
         configManager = new ConfigManager();
-        stateManager = new StateManager();
         configManager.Setup(Config);
 
         Patch();

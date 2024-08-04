@@ -1,4 +1,3 @@
-using System;
 using HarmonyLib;
 
 namespace LockedInside.Patches;
@@ -10,7 +9,7 @@ public class HUDManagerPatch {
     private static void DestroyEntranceExitAbility(ref bool __result) {
         if (!__result)
             return;
-        if (!LockedInside.stateManager.locked)
+        if (!LockedInside.locked.Value)
             return;
 
         var localPlayer = HUDManager.Instance.playersManager.localPlayerController;
@@ -31,7 +30,7 @@ public class HUDManagerPatch {
             if(entranceTeleport.isEntranceToBuilding){
                 // Entering
                 action = "enter";
-                if(LockedInside.stateManager.reverseMode){
+                if(LockedInside.reverseMode.Value){
                     // Reverse mode
                     blockInteract = true;
                     corrupted = "PAss<ge rrestrc?! .Ex%Enter--";
@@ -40,7 +39,7 @@ public class HUDManagerPatch {
             }else{
                 // Leaving
                 blockInteract = true;
-                if(LockedInside.stateManager.reverseMode){
+                if(LockedInside.reverseMode.Value){
                     // Reverse mode
                     return;
                 }
@@ -52,13 +51,13 @@ public class HUDManagerPatch {
                 // Entering
                 action = "enter";
                 blockInteract = true;
-                if(LockedInside.stateManager.reverseMode){
+                if(LockedInside.reverseMode.Value){
                     // Reverse mode
                     return;
                 }
             }else{
                 // Leaving
-                if(LockedInside.stateManager.reverseMode){
+                if(LockedInside.reverseMode.Value){
                     // Reverse mode
                     blockInteract = true;
                     corrupted = "PAssa ge rrestrc?! .Ex%Enter--";
