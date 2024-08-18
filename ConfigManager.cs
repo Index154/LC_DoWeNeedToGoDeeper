@@ -24,10 +24,10 @@ public class ConfigManager {
 
         allowExitIfLastOneAlive = configFile.Bind("General", "Allow exit if last one alive", false, "If true, the last player alive is always able to leave using any door");
 
-        customLockedChancesDict = ListToDict(customLockedChances.Value);
-        customReverseChancesDict = ListToDict(customReverseChances.Value);
+        customLockedChancesDict = StrToDict(customLockedChances.Value);
+        customReverseChancesDict = StrToDict(customReverseChances.Value);
 
-        static Dictionary<string, int> ListToDict(string list){
+        static Dictionary<string, int> StrToDict(string list){
 
             Dictionary<string, int> dict = new Dictionary<string, int>();
 

@@ -28,9 +28,9 @@ internal class RoundManagerPatches {
             }
         }
 
-        LockedInside.Logger.LogInfo("LevelName = " + StartOfRound.Instance.currentLevel.name);
-        LockedInside.Logger.LogInfo("LockChance = " + lockedChanceTemp);
-        LockedInside.Logger.LogInfo("ReverseChance = " + reverseChanceTemp);
+        LockedInside.Logger.LogDebug("LevelName = " + StartOfRound.Instance.currentLevel.name);
+        LockedInside.Logger.LogDebug("LockChance = " + lockedChanceTemp);
+        LockedInside.Logger.LogDebug("ReverseChance = " + reverseChanceTemp);
 
         int lockedRoll = Random.Range(1, 101);
         if(lockedRoll <= lockedChanceTemp){
