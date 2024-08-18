@@ -13,8 +13,8 @@ public class LockedInside : BaseUnityPlugin
     internal new static ManualLogSource Logger { get; private set; } = null!;
     internal static Harmony? Harmony { get; set; }
     internal static ConfigManager configManager = null!;
-    public static LethalNetworkVariable<bool> locked = new LethalNetworkVariable<bool>(identifier: "lockedState");
-    public static LethalNetworkVariable<bool> reverseMode = new LethalNetworkVariable<bool>(identifier: "reverseModeState");
+    public static LethalNetworkVariable<bool> locked = new LethalNetworkVariable<bool>(identifier: "LCLIlockedState");
+    public static LethalNetworkVariable<bool> reverseMode = new LethalNetworkVariable<bool>(identifier: "LCLIreverseModeState");
 
     private void Awake()
     {
