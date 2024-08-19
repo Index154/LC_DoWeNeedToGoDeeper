@@ -1,6 +1,6 @@
 using System.Linq;
 
-namespace LockedInside;
+namespace DoWeNeedToGoDeeper;
 
 public static class ExitChecker {
     public static bool IsLastAlive() {

@@ -3,18 +3,19 @@ using BepInEx.Logging;
 using HarmonyLib;
 using LethalNetworkAPI;
 
-namespace LockedInside;
+namespace DoWeNeedToGoDeeper;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency("LethalNetworkAPI")]
-public class LockedInside : BaseUnityPlugin
+public class DoWeNeedToGoDeeper : BaseUnityPlugin
 {
-    public static LockedInside Instance { get; private set; } = null!;
+    public static DoWeNeedToGoDeeper Instance { get; private set; } = null!;
     internal new static ManualLogSource Logger { get; private set; } = null!;
     internal static Harmony? Harmony { get; set; }
     internal static ConfigManager configManager = null!;
     public static LethalNetworkVariable<bool> locked = new LethalNetworkVariable<bool>(identifier: "LCLIlockedState");
     public static LethalNetworkVariable<bool> reverseMode = new LethalNetworkVariable<bool>(identifier: "LCLIreverseModeState");
+    public static LethalNetworkVariable<bool> dynamicMode = new LethalNetworkVariable<bool>(identifier: "LCLIdynamicModeState");
 
     private void Awake()
     {

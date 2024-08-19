@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 
-namespace LockedInside.Patches;
+namespace DoWeNeedToGoDeeper.Patches;
 
 [HarmonyPatch(typeof(RoundManager))]
 internal class RoundManagerPatches {
@@ -11,48 +11,70 @@ internal class RoundManagerPatches {
     [HarmonyPatch("LoadNewLevel")]
     public static void RollForLocking(){
 
-        int lockedChanceTemp = LockedInside.configManager.lockedChance.Value;
-        int reverseChanceTemp = LockedInside.configManager.reverseChance.Value;
+        int lockedChanceTemp = DoWeNeedToGoDeeper.configManager.lockedChance.Value;
+        int reverseChanceTemp = DoWeNeedToGoDeeper.configManager.reverseChance.Value;
+        int dynamicChanceTemp = DoWeNeedToGoDeeper.configManager.dynamicChance.Value;
 
         // Go through custom locked chance list
-        foreach(KeyValuePair<string, int> kvp in LockedInside.configManager.customLockedChancesDict){
+        foreach(KeyValuePair<string, int> kvp in DoWeNeedToGoDeeper.configManager.customLockedChancesDict){
             if(kvp.Key != "" && StartOfRound.Instance.currentLevel.name.ToLowerInvariant().Contains(kvp.Key)){
                 lockedChanceTemp = kvp.Value;
             }
         }
-
+        // Go through custom dynamic mode chance list
+        foreach(KeyValuePair<string, int> kvp in DoWeNeedToGoDeeper.configManager.customDynamicChancesDict){
+            if(kvp.Key != "" && StartOfRound.Instance.currentLevel.name.ToLowerInvariant().Contains(kvp.Key)){
+                dynamicChanceTemp = kvp.Value;
+            }
+        }
         // Go through custom reverse mode chance list
-        foreach(KeyValuePair<string, int> kvp in LockedInside.configManager.customReverseChancesDict){
+        foreach(KeyValuePair<string, int> kvp in DoWeNeedToGoDeeper.configManager.customReverseChancesDict){
             if(kvp.Key != "" && StartOfRound.Instance.currentLevel.name.ToLowerInvariant().Contains(kvp.Key)){
                 reverseChanceTemp = kvp.Value;
             }
         }
 
-        LockedInside.Logger.LogDebug("LevelName = " + StartOfRound.Instance.currentLevel.name);
-        LockedInside.Logger.LogDebug("LockChance = " + lockedChanceTemp);
-        LockedInside.Logger.LogDebug("ReverseChance = " + reverseChanceTemp);
+        DoWeNeedToGoDeeper.Logger.LogInfo("LevelName = " + StartOfRound.Instance.currentLevel.name);
+        DoWeNeedToGoDeeper.Logger.LogInfo("LockChance = " + lockedChanceTemp);
+        DoWeNeedToGoDeeper.Logger.LogInfo("ReverseChance = " + reverseChanceTemp);
+        DoWeNeedToGoDeeper.Logger.LogInfo("DynamicChance = " + dynamicChanceTemp);
 
         int lockedRoll = Random.Range(1, 101);
         if(lockedRoll <= lockedChanceTemp){
 
             if(!StartOfRound.Instance.currentLevel.name.ToLowerInvariant().Contains("company")){
 
-                LockedInside.locked.Value = true;
+                DoWeNeedToGoDeeper.locked.Value = true;
 
-                int reverseRoll = Random.Range(1, 101);
-                if(reverseRoll <= reverseChanceTemp){
-                    LockedInside.reverseMode.Value = true;
+                int specialModeRoll = Random.Range(1, 101);
+                if(specialModeRoll <= dynamicChanceTemp){
+                    DoWeNeedToGoDeeper.reverseMode.Value = false;
+                    DoWeNeedToGoDeeper.dynamicMode.Value = true;
+                    HUDManager.Instance.AddTextToChatOnServer("<color=yellow>Dynamic entrance control systems are active!</color>");
+                    HUDManager.Instance.DisplayGlobalNotification("Entrance control systems are active and dynamic!");
+                }else if(specialModeRoll <= dynamicChanceTemp + reverseChanceTemp){
+                    DoWeNeedToGoDeeper.reverseMode.Value = true;
+                    DoWeNeedToGoDeeper.dynamicMode.Value = false;
                     HUDManager.Instance.AddTextToChatOnServer("<color=red>Entrance control systems are active and corrupted!</color>");
+                    HUDManager.Instance.DisplayGlobalNotification("Entrance control systems are active and corrupted!");
                 }else{
-                    LockedInside.reverseMode.Value = false;
-                    HUDManager.Instance.AddTextToChatOnServer("<color=red>Entrance control systems are active!</color>");
+                    DoWeNeedToGoDeeper.reverseMode.Value = false;
+                    DoWeNeedToGoDeeper.dynamicMode.Value = false;
+                    HUDManager.Instance.AddTextToChatOnServer("<color=green>Entrance control systems are active!</color>");
+                    HUDManager.Instance.DisplayGlobalNotification("Entrance control systems are active!");
                 }
-
             }
             
         }else{
-            LockedInside.locked.Value = false;
-            HUDManager.Instance.AddTextToChatOnServer("<color=white>Entrance control systems are inactive</color>");
+            DoWeNeedToGoDeeper.locked.Value = false;
         }
+    }
+
+    [HarmonyPostfix]
+    [HarmonyPatch("SwitchPower")]
+    public static void OnPowerSwitch(bool on){
+        if(!DoWeNeedToGoDeeper.configManager.allowExitIfBreakerBoxDisabled.Value) return;
+        if(on) DoWeNeedToGoDeeper.locked.Value = true;
+        else DoWeNeedToGoDeeper.locked.Value = false;
     }
 }

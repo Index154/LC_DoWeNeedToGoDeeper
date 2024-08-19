@@ -1,4 +1,4 @@
-# Locked Inside
+# Do We Need To Go Deeper?
 https://thunderstore.io/c/lethal-company/p/Index154/Locked_Inside/
 
 Refer to the Thunderstore page for an explanation of the mod's functionality.
