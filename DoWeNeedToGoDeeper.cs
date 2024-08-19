@@ -13,9 +13,10 @@ public class DoWeNeedToGoDeeper : BaseUnityPlugin
     internal new static ManualLogSource Logger { get; private set; } = null!;
     internal static Harmony? Harmony { get; set; }
     internal static ConfigManager configManager = null!;
-    public static LethalNetworkVariable<bool> locked = new LethalNetworkVariable<bool>(identifier: "LCLIlockedState");
-    public static LethalNetworkVariable<bool> reverseMode = new LethalNetworkVariable<bool>(identifier: "LCLIreverseModeState");
-    public static LethalNetworkVariable<bool> dynamicMode = new LethalNetworkVariable<bool>(identifier: "LCLIdynamicModeState");
+    public static LethalNetworkVariable<bool> locked = new LethalNetworkVariable<bool>(identifier: "DWNTGDlocked");
+    public static LethalNetworkVariable<bool> dynamicMode = new LethalNetworkVariable<bool>(identifier: "DWNTGDdynamicMode");
+    public static LethalNetworkVariable<bool> reverseMode = new LethalNetworkVariable<bool>(identifier: "DWNTGDreverseMode");
+    public static LethalNetworkVariable<bool> breakerOff = new LethalNetworkVariable<bool>(identifier: "DWNTGDbreakerOff");
 
     private void Awake()
     {

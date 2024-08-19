@@ -10,6 +10,7 @@ public class HUDManagerPatch {
     private static void DestroyEntranceExitAbility(ref bool __result) {
         if (!__result) return;
         if (!DoWeNeedToGoDeeper.locked.Value) return;
+        if (DoWeNeedToGoDeeper.configManager.disableIfBreakerBoxDisabled.Value && DoWeNeedToGoDeeper.breakerOff.Value) return;
 
         var localPlayer = HUDManager.Instance.playersManager.localPlayerController;
         DoorString ds = localPlayer.gameObject.GetComponent<DoorString>();

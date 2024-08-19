@@ -72,9 +72,11 @@ internal class RoundManagerPatches {
 
     [HarmonyPostfix]
     [HarmonyPatch("SwitchPower")]
-    public static void OnPowerSwitch(bool on){
-        if(!DoWeNeedToGoDeeper.configManager.allowExitIfBreakerBoxDisabled.Value) return;
-        if(on) DoWeNeedToGoDeeper.locked.Value = true;
-        else DoWeNeedToGoDeeper.locked.Value = false;
+    public static void TrackBreakerState(bool on){
+        if(!DoWeNeedToGoDeeper.locked.Value) return;
+        if(!DoWeNeedToGoDeeper.configManager.disableIfBreakerBoxDisabled.Value) return;
+        
+        if(on) DoWeNeedToGoDeeper.breakerOff.Value = false;
+        else DoWeNeedToGoDeeper.breakerOff.Value = true;
     }
 }
