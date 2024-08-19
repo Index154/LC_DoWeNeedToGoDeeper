@@ -34,10 +34,10 @@ internal class RoundManagerPatches {
             }
         }
 
-        DoWeNeedToGoDeeper.Logger.LogInfo("LevelName = " + StartOfRound.Instance.currentLevel.name);
-        DoWeNeedToGoDeeper.Logger.LogInfo("LockChance = " + lockedChanceTemp);
-        DoWeNeedToGoDeeper.Logger.LogInfo("ReverseChance = " + reverseChanceTemp);
-        DoWeNeedToGoDeeper.Logger.LogInfo("DynamicChance = " + dynamicChanceTemp);
+        DoWeNeedToGoDeeper.Logger.LogDebug("LevelName = " + StartOfRound.Instance.currentLevel.name);
+        DoWeNeedToGoDeeper.Logger.LogDebug("LockChance = " + lockedChanceTemp);
+        DoWeNeedToGoDeeper.Logger.LogDebug("ReverseChance = " + reverseChanceTemp);
+        DoWeNeedToGoDeeper.Logger.LogDebug("DynamicChance = " + dynamicChanceTemp);
 
         int lockedRoll = Random.Range(1, 101);
         if(lockedRoll <= lockedChanceTemp){
