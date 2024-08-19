@@ -1,11 +1,10 @@
 # Do We Need To Go Deeper?
-https://thunderstore.io/c/lethal-company/p/Index154/Locked_Inside/
+Refer to the Thunderstore page for an explanation of the mod's functionality:
 
-Refer to the Thunderstore page for an explanation of the mod's functionality.
+https://thunderstore.io/c/lethal-company/p/Index154/Do_We_Need_To_Go_Deeper/
+
 
 ## Future ideas
-I won't necessarily be adding these. Feel free to comment if you think I should.
-- Something to prevent getting stuck with a fire exit that requires a key to progress
-- Options for tying the activation to the selected interior instead of random chance
+I won't necessarily be adding these. Just some ideas
+- Options for multiplying the activation chances by custom multipliers depending on the interior
 - Options for only locking the doors during specific times of day
-- Probably difficult to implement: A mode where it keeps track of where each player entered and gives them the corresponding exit restriction only until they make it out again
