@@ -51,17 +51,14 @@ internal class RoundManagerPatches {
                     DoWeNeedToGoDeeper.reverseMode.Value = false;
                     DoWeNeedToGoDeeper.dynamicMode.Value = true;
                     HUDManager.Instance.AddTextToChatOnServer("<color=yellow>Dynamic entrance control systems are active!</color>");
-                    HUDManager.Instance.DisplayGlobalNotification("Entrance control systems are active and dynamic!");
                 }else if(specialModeRoll <= dynamicChanceTemp + reverseChanceTemp){
                     DoWeNeedToGoDeeper.reverseMode.Value = true;
                     DoWeNeedToGoDeeper.dynamicMode.Value = false;
-                    HUDManager.Instance.AddTextToChatOnServer("<color=red>Entrance control systems are active and corrupted!</color>");
-                    HUDManager.Instance.DisplayGlobalNotification("Entrance control systems are active and corrupted!");
+                    HUDManager.Instance.AddTextToChatOnServer("<color=red>Entrance control systems are active but corrupted!</color>");
                 }else{
                     DoWeNeedToGoDeeper.reverseMode.Value = false;
                     DoWeNeedToGoDeeper.dynamicMode.Value = false;
                     HUDManager.Instance.AddTextToChatOnServer("<color=green>Entrance control systems are active!</color>");
-                    HUDManager.Instance.DisplayGlobalNotification("Entrance control systems are active!");
                 }
             }
             
