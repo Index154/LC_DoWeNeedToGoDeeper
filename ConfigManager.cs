@@ -17,6 +17,7 @@ public class ConfigManager {
     internal ConfigEntry<bool> allowExitIfLastOneAlive = null!;
     internal ConfigEntry<bool> disableIfApparatusTaken = null!;
     internal ConfigEntry<bool> disableIfBreakerBoxDisabled = null!;
+    internal ConfigEntry<bool> postChatAlert = null!;
 
     internal void Setup(ConfigFile configFile) {
         lockedChance = configFile.Bind("1. Entrance control activation", "Global activation chance", 20, new ConfigDescription("Default percentage chance for the entrance control systems to activate on any given day. Will make it so by default everyone can only enter through the main entrance and leave through the fire exits. The other modes will override this behavior", new AcceptableValueRange<int>(0, 100), Array.Empty<object>()));
@@ -36,6 +37,8 @@ public class ConfigManager {
         disableIfApparatusTaken = configFile.Bind("4. Other", "Disable entrance controls after Apparatus is grabbed", false, "If true, everyone can exit and enter using any door after the Apparatus is taken by a player");
 
         disableIfBreakerBoxDisabled = configFile.Bind("4. Other", "Disable entrance controls while the breaker box is turned off", false, "If true, everyone can exit and enter using any door while power in the facility is turned off through the breaker box (or if the moon started with the power turned off)");
+
+        postChatAlert = configFile.Bind("4. Other", "Send status alert in chat", false, "Whether a chat message should be sent when the entrance controls are active (in addition to the alert popup). Can be useful because it doesn't disappear unlike the alert box");
 
         customLockedChancesDict = StrToDict(customLockedChances.Value);
         customReverseChancesDict = StrToDict(customReverseChances.Value);

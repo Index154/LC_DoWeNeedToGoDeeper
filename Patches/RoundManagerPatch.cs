@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Collections;
 using HarmonyLib;
 using UnityEngine;
 
@@ -40,28 +41,26 @@ internal class RoundManagerPatches {
         DoWeNeedToGoDeeper.Logger.LogDebug("DynamicChance = " + dynamicChanceTemp);
 
         int lockedRoll = Random.Range(1, 101);
-        if(lockedRoll <= lockedChanceTemp){
+        if(lockedRoll <= lockedChanceTemp && !StartOfRound.Instance.currentLevel.name.ToLowerInvariant().Contains("company")){
 
-            if(!StartOfRound.Instance.currentLevel.name.ToLowerInvariant().Contains("company")){
+            DoWeNeedToGoDeeper.locked.Value = true;
 
-                DoWeNeedToGoDeeper.locked.Value = true;
-
-                int specialModeRoll = Random.Range(1, 101);
-                if(specialModeRoll <= dynamicChanceTemp){
-                    DoWeNeedToGoDeeper.reverseMode.Value = false;
-                    DoWeNeedToGoDeeper.dynamicMode.Value = true;
-                    HUDManager.Instance.AddTextToChatOnServer("<color=yellow>Dynamic entrance control systems are active!</color>");
-                }else if(specialModeRoll <= dynamicChanceTemp + reverseChanceTemp){
-                    DoWeNeedToGoDeeper.reverseMode.Value = true;
-                    DoWeNeedToGoDeeper.dynamicMode.Value = false;
-                    HUDManager.Instance.AddTextToChatOnServer("<color=red>Entrance control systems are active but corrupted!</color>");
-                }else{
-                    DoWeNeedToGoDeeper.reverseMode.Value = false;
-                    DoWeNeedToGoDeeper.dynamicMode.Value = false;
-                    HUDManager.Instance.AddTextToChatOnServer("<color=green>Entrance control systems are active!</color>");
-                }
+            int specialModeRoll = Random.Range(1, 101);
+            string text = "<color=green>Entrance control systems detected!</color>";
+            if(specialModeRoll <= dynamicChanceTemp){
+                DoWeNeedToGoDeeper.reverseMode.Value = false;
+                DoWeNeedToGoDeeper.dynamicMode.Value = true;
+                text = "<color=yellow>Dynamic entrance control systems detected!</color>";
+            }else if(specialModeRoll <= dynamicChanceTemp + reverseChanceTemp){
+                DoWeNeedToGoDeeper.reverseMode.Value = true;
+                DoWeNeedToGoDeeper.dynamicMode.Value = false;
+                text = "<color=red>Corrupted entrance control systems detected!</color>";
+            }else{
+                DoWeNeedToGoDeeper.reverseMode.Value = false;
+                DoWeNeedToGoDeeper.dynamicMode.Value = false;
             }
-            
+            if (DoWeNeedToGoDeeper.configManager.postChatAlert.Value) HUDManager.Instance.AddTextToChatOnServer(text);
+        
         }else{
             DoWeNeedToGoDeeper.locked.Value = false;
         }
