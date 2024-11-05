@@ -9,7 +9,7 @@ internal class RoundManagerPatches {
 
     [HarmonyPostfix]
     [HarmonyPatch("LoadNewLevel")]
-    public static void RollForLocking(){
+    public static void RollForLocking(int randomSeed, SelectableLevel newLevel, RoundManager __instance){
 
         int lockedChanceTemp = DoWeNeedToGoDeeper.configManager.lockedChance.Value;
         int reverseChanceTemp = DoWeNeedToGoDeeper.configManager.reverseChance.Value;
@@ -34,15 +34,29 @@ internal class RoundManagerPatches {
             }
         }
 
+        // Debug
         DoWeNeedToGoDeeper.Logger.LogDebug("LevelName = " + StartOfRound.Instance.currentLevel.name);
         DoWeNeedToGoDeeper.Logger.LogDebug("LockChance = " + lockedChanceTemp);
         DoWeNeedToGoDeeper.Logger.LogDebug("ReverseChance = " + reverseChanceTemp);
         DoWeNeedToGoDeeper.Logger.LogDebug("DynamicChance = " + dynamicChanceTemp);
+        DoWeNeedToGoDeeper.Logger.LogDebug("Flooded = " + (StartOfRound.Instance.currentLevel.currentWeather == LevelWeatherType.Flooded));
+        DoWeNeedToGoDeeper.Logger.LogDebug("Days spent = " + StartOfRound.Instance.gameStats.daysSpent);
 
         int lockedRoll = Random.Range(1, 101);
-        if(lockedRoll <= lockedChanceTemp && !StartOfRound.Instance.currentLevel.name.ToLowerInvariant().Contains("company")){
+        // Prevent locking in certain cases. Separated for readability
+        // Flooded
+        if(DoWeNeedToGoDeeper.configManager.disableIfFlooded.Value && StartOfRound.Instance.currentLevel.currentWeather == LevelWeatherType.Flooded) lockedRoll = 200;
+        // Early game grace period
+        if(StartOfRound.Instance.gameStats.daysSpent < DoWeNeedToGoDeeper.configManager.earlyGameGracePeriod.Value) lockedRoll = 200;
+        // Company
+        if(StartOfRound.Instance.currentLevel.name.ToLowerInvariant().Contains("company")) lockedRoll = 200;
+
+        DoWeNeedToGoDeeper.Logger.LogDebug("Locking roll = " + lockedRoll);
+
+        if(lockedRoll <= lockedChanceTemp){
 
             DoWeNeedToGoDeeper.locked.Value = true;
+            DoWeNeedToGoDeeper.Logger.LogDebug("Lock applied!");
 
             int specialModeRoll = Random.Range(1, 101);
             string text = "<color=green>Entrance control systems detected!</color>";

@@ -17,7 +17,7 @@ internal class StartOfRoundPatches {
     public static void DisplayLockedAlert(){
         // Patching this function because it runs early during the landing process
         // A prefix patch on openingDoorsSequence does not work
-        if(DoWeNeedToGoDeeper.locked.Value){
+        if(DoWeNeedToGoDeeper.locked.Value && DoWeNeedToGoDeeper.configManager.popupAlert.Value){
             string text = "Entrance control systems detected!\n(Main -> Fire)";
             if(DoWeNeedToGoDeeper.dynamicMode.Value) text = "Dynamic entrance control systems detected!\n(Any -> Opposite)";
             else if(DoWeNeedToGoDeeper.reverseMode.Value) text = "Corrupted entrance control systems detected!\n(Fire -> Main)";
