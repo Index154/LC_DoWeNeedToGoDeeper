@@ -14,4 +14,4 @@ I won't necessarily be adding these. Just some ideas
 ⠀
 ⠀
 ⠀
-> LC_DoWeNeedToGoDeeper © 2024 by Index154 aka ArtificialIndex is licensed under Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc-nd/4.0/. This license requires that reusers give credit to the creator. It allows reusers to copy and distribute the material in any medium or format in unadapted form and for noncommercial purposes only.
+> LC_DoWeNeedToGoDeeper © 2024 by Index154 aka ArtificialIndex is licensed under CC BY-NC 4.0 International. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc/4.0/. This license requires that reusers give credit to the creator. It allows reusers to distribute, remix, adapt, and build upon the material in any medium or format, for noncommercial purposes only.
